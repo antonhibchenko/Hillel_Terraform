@@ -9,7 +9,8 @@ variable "instance_type" {
 }
 
 variable "eip_attach" {
-  default = 1
+  type = bool
+  default = true
   description = "Attach Elastic IP to instance"
 }
 

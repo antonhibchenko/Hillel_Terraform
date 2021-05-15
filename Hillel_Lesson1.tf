@@ -7,6 +7,9 @@ locals {
 
 }
 
+provider "aws" {
+  region = "eu-central-1"
+}
 resource "aws_instance" "this" {
   ami                    = var.ami_id
   instance_type          = var.instance_type                 // HOMEWORK: change to a variable (type — string)
