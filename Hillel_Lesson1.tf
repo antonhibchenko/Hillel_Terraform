@@ -4,7 +4,6 @@ locals {
     Project = "Hillel"
     Class   = "Class 17"
   }
-
 }
 
 provider "aws" {
@@ -14,10 +13,14 @@ resource "aws_instance" "this" {
   ami                    = var.ami_id
   instance_type          = var.instance_type                 // HOMEWORK: change to a variable (type — string)
   vpc_security_group_ids = [aws_security_group.this.id]
-  key_name = var.ssh_public_key
+  key_name = "Hillel_Key"
   //  HOMEWORK hint - key_name = ""
-
   tags = local.common_tags
+}
+
+resource "aws_key_pair" "Hillel_Key" {
+  key_name   = "Hillel_Key"
+  public_key = var.aws_key_pair
 }
 // HOMEWORK: describe aws_key_pair resource
 //           define keypair via variable (type string) with default value (your own public key)
@@ -69,16 +72,4 @@ resource "aws_security_group_rule" "HTTPS" {
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.this.id
-}
-
-
-output "instance_pub_ip" {
-  value     = aws_instance.this.public_ip // HOMEWORK: show elastic ip (aws_eip) value if one is associated.
-  // https://www.terraform.io/docs/configuration/expressions/conditionals.html
-  // https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip#attributes-reference
-
-  sensitive = false
-}
-output "instance_pub_dns" {
-  value = aws_instance.this.public_dns
 }
